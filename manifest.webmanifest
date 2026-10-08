@@ -1,0 +1,17 @@
+{
+  "name": "PDF Text Eraser & Editor",
+  "short_name": "PDF Eraser",
+  "description": "Really delete text from PDFs, edit, sign, merge. Works offline; files never leave your device.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#EEF1F5",
+  "theme_color": "#EEF1F5",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "file_handlers": [
+    { "action": "./index.html", "accept": { "application/pdf": [".pdf"] } }
+  ]
+}
