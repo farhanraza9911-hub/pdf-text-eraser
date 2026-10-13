@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Admin – PDF Text Eraser &amp; Editor</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#EEF1F5">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{--bg:#EEF1F5;--surface:#F8FAFC;--text:#2A2F38;--muted:#6B7380;--primary:#D32F2F;--ok:#2E7D32;
+  --shadow:8px 8px 18px rgba(138,152,174,.45),-8px -8px 18px rgba(255,255,255,.9);
+  --neu:5px 5px 10px rgba(138,152,174,.45),-5px -5px 10px rgba(255,255,255,.95);
+  --neu-in:inset 3px 3px 6px rgba(138,152,174,.45),inset -3px -3px 6px rgba(255,255,255,.95)}
+@media (prefers-color-scheme:dark){:root{--bg:#22252A;--surface:#282C32;--text:#E8EBF0;--muted:#A0A7B2;--primary:#FF8A80;--ok:#81C784;
+  --shadow:6px 6px 14px rgba(0,0,0,.45),-6px -6px 14px rgba(255,255,255,.04);
+  --neu:4px 4px 9px rgba(0,0,0,.5),-4px -4px 9px rgba(255,255,255,.05);
+  --neu-in:inset 3px 3px 6px rgba(0,0,0,.5),inset -3px -3px 6px rgba(255,255,255,.05)}}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+main{max-width:560px;margin:0 auto;padding:24px 16px 40px}
+.card{background:var(--surface);border-radius:24px;box-shadow:var(--shadow);padding:22px 20px;margin-bottom:18px}
+h1{font-size:21px;margin:0 0 4px}
+h2{font-size:17px;margin:0 0 10px}
+p,.muted{color:var(--muted);margin:0 0 12px}
+label{display:block;font-size:13px;font-weight:600;margin:12px 0 6px}
+input[type=text],input[type=email],input[type=password]{width:100%;font:inherit;color:var(--text);background:var(--bg);border:0;border-radius:12px;padding:12px;box-shadow:var(--neu-in);outline:none}
+input:focus{box-shadow:var(--neu-in),0 0 0 2px var(--primary)}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;margin-top:16px;border:0;border-radius:16px;background:var(--surface);box-shadow:var(--neu);font:inherit;font-weight:700;color:var(--primary);cursor:pointer}
+.btn.sec{color:var(--text);font-weight:600}
+.btn:active{box-shadow:var(--neu-in)}
+.btn:disabled{opacity:.55}
+.msg{min-height:20px;margin-top:12px;font-weight:600;white-space:pre-line}
+.msg.err{color:var(--primary)} .msg.ok{color:var(--ok)}
+.chk{display:flex;gap:8px;align-items:center;font-weight:400;color:var(--muted)}
+details{margin-top:10px} summary{cursor:pointer;color:var(--muted);font-size:13px}
+ol{padding-left:20px;margin:8px 0;color:var(--muted);font-size:13px}
+.hidden{display:none!important}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.top img{width:52px;height:52px;border-radius:14px;box-shadow:var(--neu)}
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><img src="icon-192.png" alt=""><div><h1>Admin</h1><div class="muted" style="margin:0">PDF Text Eraser &amp; Editor · web version lock</div></div></div>
+
+  <!-- 1. Login -->
+  <form class="card" id="login">
+    <h2>Admin login</h2>
+    <p>Use the same admin email and password as in the app’s admin panel.</p>
+    <label for="em">Admin email</label><input id="em" type="email" autocomplete="username" required>
+    <label for="ap">Admin password</label><input id="ap" type="password" autocomplete="current-password" required>
+    <button class="btn" id="bLogin" type="submit">Log in</button>
+    <div class="msg" id="mLogin"></div>
+  </form>
+
+  <!-- 2. Change password -->
+  <form class="card hidden" id="change">
+    <h2>Change the website password</h2>
+    <p>Everyone (including devices that “remember” the old password) will need the new password.</p>
+    <label for="np">New password</label><input id="np" type="text" autocomplete="off" spellcheck="false" required minlength="6" placeholder="At least 6 characters">
+    <label for="np2">Type it again</label><input id="np2" type="text" autocomplete="off" spellcheck="false" required>
+    <p class="muted" style="margin-top:8px;font-size:13px">Capital and small letters count as the same.</p>
+
+    <h2 style="margin-top:20px">Publish to GitHub</h2>
+    <label for="repo">Repository</label><input id="repo" type="text" value="farhanraza9911-hub/pdf-text-eraser" spellcheck="false">
+    <label for="br">Branch</label><input id="br" type="text" value="main" spellcheck="false">
+    <label for="tok">GitHub token</label><input id="tok" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…">
+    <label class="chk"><input type="checkbox" id="remTok" checked> Remember the token on this computer</label>
+    <details><summary>How to get a GitHub token (one time)</summary>
+      <ol>
+        <li>github.com → your photo → <b>Settings</b> → <b>Developer settings</b> → <b>Personal access tokens</b> → <b>Fine-grained tokens</b> → <b>Generate new token</b>.</li>
+        <li>Name: <i>pdf-eraser-admin</i>. Expiration: up to 1 year.</li>
+        <li>Repository access: <b>Only select repositories</b> → <b>pdf-text-eraser</b>.</li>
+        <li>Permissions → Repository permissions → <b>Contents: Read and write</b>.</li>
+        <li><b>Generate token</b>, copy it and paste it here. Keep it secret.</li>
+      </ol>
+    </details>
+    <button class="btn" id="bPublish" type="submit">Change password &amp; publish</button>
+    <button class="btn sec" id="bDownload" type="button">Without token: download files to upload myself</button>
+    <div class="msg" id="mChange"></div>
+  </form>
+</main>
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const enc = new TextEncoder(), dec = new TextDecoder();
+  const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  const toB64 = (u) => { let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
+  const PAGES = ['index.html', 'image.html', 'scan.html', 'cv.html'];
+  const RE = /const P = (\{"i": ?"[A-Za-z0-9+\/=]*", ?"c": ?"[A-Za-z0-9+\/=]*"\});/;
+  const msg = (id, text, ok) => { const m = $(id); m.textContent = text; m.className = 'msg ' + (ok ? 'ok' : 'err'); };
+  if (!window.crypto || !crypto.subtle) { msg('#mLogin', 'Please open this page over https in a modern browser.'); return; }
+  try { const t = localStorage.getItem('pdfeditor-admin-token'); if (t) $('#tok').value = t; } catch (e) {}
+
+  const kek = async (secret, saltB64, n) => {
+    const base = await crypto.subtle.importKey('raw', enc.encode(secret), 'PBKDF2', false, ['deriveBits']);
+    return new Uint8Array(await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: b64(saltB64), iterations: n }, base, 256));
+  };
+  const key = (raw, use) => crypto.subtle.importKey('raw', raw, 'AES-GCM', false, [use]);
+  const unwrap = async (raw, w) => new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(w.i) }, await key(raw, 'decrypt'), b64(w.c)));
+  const seal = async (raw, data) => { const iv = crypto.getRandomValues(new Uint8Array(12)); return { i: toB64(iv), c: toB64(new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, await key(raw, 'encrypt'), data))) }; };
+  let adminSecret = null;
+
+  // ------------------------------------------------------------ reading/writing files
+  async function siteFile(name) { const r = await fetch(name + '?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) throw new Error('Could not read ' + name); return r.text(); }
+  function gh(token, repo) {
+    const api = async (path, opts = {}) => {
+      const r = await fetch('https://api.github.com/repos/' + repo + path, Object.assign({}, opts, { headers: Object.assign({ Authorization: 'Bearer ' + token, 'X-GitHub-Api-Version': '2022-11-28', Accept: 'application/vnd.github+json' }, opts.headers || {}) }));
+      if (r.status === 401) throw new Error('The GitHub token is wrong or expired.');
+      if (r.status === 403) throw new Error('The GitHub token has no permission to write to this repository (it needs Contents: Read and write).');
+      if (r.status === 404) throw new Error('Repository or branch not found, or the token cannot see it.');
+      if (!r.ok) throw new Error('GitHub error ' + r.status + '.');
+      return r;
+    };
+    return {
+      read: async (name, branch) => (await api('/contents/' + name + '?ref=' + encodeURIComponent(branch), { headers: { Accept: 'application/vnd.github.raw' } })).text(),
+      commit: async (branch, files, message) => {
+        const ref = await (await api('/git/ref/heads/' + encodeURIComponent(branch))).json();
+        const head = await (await api('/git/commits/' + ref.object.sha)).json();
+        const tree = [];
+        for (const f of files) {
+          const blob = await (await api('/git/blobs', { method: 'POST', body: JSON.stringify({ content: toB64(enc.encode(f.data)), encoding: 'base64' }) })).json();
+          tree.push({ path: f.name, mode: '100644', type: 'blob', sha: blob.sha });
+        }
+        const t = await (await api('/git/trees', { method: 'POST', body: JSON.stringify({ base_tree: head.tree.sha, tree }) })).json();
+        const c = await (await api('/git/commits', { method: 'POST', body: JSON.stringify({ message, tree: t.sha, parents: [ref.object.sha] }) })).json();
+        await api('/git/refs/heads/' + encodeURIComponent(branch), { method: 'PATCH', body: JSON.stringify({ sha: c.sha }) });
+      },
+    };
+  }
+
+  // ------------------------------------------------------------ login
+  $('#login').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const b = $('#bLogin'); b.disabled = true; b.textContent = 'Checking…'; msg('#mLogin', '');
+    try {
+      const L = JSON.parse(await siteFile('lock.json'));
+      const secret = $('#em').value.trim().toLowerCase() + '|' + $('#ap').value;
+      await unwrap(await kek(secret, L.admin.s, L.n), L.admin);
+      adminSecret = secret;
+      $('#login').classList.add('hidden'); $('#change').classList.remove('hidden'); $('#np').focus();
+    } catch (err) {
+      msg('#mLogin', err && /Could not read/.test(err.message) ? 'Could not load lock.json. Is the website uploaded?' : 'Wrong admin email or password.');
+    }
+    b.disabled = false; b.textContent = 'Log in';
+  });
+
+  // ------------------------------------------------------------ change password
+  async function rebuild(read) {
+    const np = $('#np').value.trim(), np2 = $('#np2').value.trim();
+    if (np.length < 6) throw new Error('The new password must have at least 6 characters.');
+    if (np.toUpperCase() !== np2.toUpperCase()) throw new Error('The two passwords are not the same.');
+    const L = JSON.parse(await read('lock.json'));
+    let oldCk;
+    try { oldCk = await unwrap(await kek(adminSecret, L.admin.s, L.n), L.admin); }
+    catch (e) { throw new Error('The website files were changed with a different admin login. Reload this page and log in again.'); }
+    const newCk = crypto.getRandomValues(new Uint8Array(32));
+    const files = [];
+    for (const name of PAGES) {
+      const page = await read(name), m = page.match(RE);
+      if (!m) throw new Error(name + ' is not a locked page. Upload the website files first.');
+      const P = JSON.parse(m[1]);
+      let html;
+      try { html = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(P.i) }, await key(oldCk, 'decrypt'), b64(P.c)); }
+      catch (e) { throw new Error('GitHub is still updating ' + name + ' from a previous change. Wait 2 minutes and try again.'); }
+      const sealed = await seal(newCk, new Uint8Array(html));
+      files.push({ name, data: page.replace(m[1], () => JSON.stringify({ i: sealed.i, c: sealed.c })) });
+    }
+    const us = toB64(crypto.getRandomValues(new Uint8Array(16))), as = toB64(crypto.getRandomValues(new Uint8Array(16)));
+    const lock = { v: 1, n: L.n,
+      user: Object.assign({ s: us }, await seal(await kek(np.toUpperCase(), us, L.n), newCk)),
+      admin: Object.assign({ s: as }, await seal(await kek(adminSecret, as, L.n), newCk)) };
+    files.push({ name: 'lock.json', data: JSON.stringify(lock) });
+    return { files, np };
+  }
+
+  function busy(on, text) { ['#bPublish', '#bDownload'].forEach((s) => ($(s).disabled = on)); if (text !== undefined) msg('#mChange', text, true); }
+
+  $('#change').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const token = $('#tok').value.trim(), repo = $('#repo').value.trim(), branch = $('#br').value.trim() || 'main';
+    if (!token) { msg('#mChange', 'Paste your GitHub token, or use “download files” below.'); return; }
+    busy(true, 'Working… (this can take up to a minute)');
+    try {
+      const g = gh(token, repo);
+      const { files, np } = await rebuild((n) => g.read(n, branch));
+      msg('#mChange', 'Uploading to GitHub…', true);
+      await g.commit(branch, files, 'Change website password');
+      try { if ($('#remTok').checked) localStorage.setItem('pdfeditor-admin-token', token); else localStorage.removeItem('pdfeditor-admin-token'); } catch (e2) {}
+      msg('#mChange', 'Done! New password: ' + np.toUpperCase() + '\nThe website uses it in 1–2 minutes (GitHub needs a moment to update).', true);
+      $('#np').value = ''; $('#np2').value = '';
+    } catch (err) { msg('#mChange', err.message || 'Something went wrong.'); }
+    busy(false);
+  });
+
+  // Without a token: build the files and download a ZIP to upload by hand.
+  const crcT = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+  const crc = (u) => { let c = 0xffffffff; for (let i = 0; i < u.length; i++) c = crcT[(c ^ u[i]) & 0xff] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; };
+  function zip(files) {
+    const parts = [], cen = []; let off = 0;
+    for (const f of files) {
+      const d = enc.encode(f.data), n = enc.encode(f.name), c = crc(d), h = new DataView(new ArrayBuffer(30)), ch = new DataView(new ArrayBuffer(46));
+      h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(6, 0x800, true); h.setUint32(14, c, true); h.setUint32(18, d.length, true); h.setUint32(22, d.length, true); h.setUint16(26, n.length, true);
+      ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x800, true); ch.setUint32(16, c, true); ch.setUint32(20, d.length, true); ch.setUint32(24, d.length, true); ch.setUint16(28, n.length, true); ch.setUint32(42, off, true);
+      parts.push(new Uint8Array(h.buffer), n, d); cen.push(new Uint8Array(ch.buffer), n); off += 30 + n.length + d.length;
+    }
+    const size = cen.reduce((s, a) => s + a.length, 0), end = new DataView(new ArrayBuffer(22));
+    end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true); end.setUint32(12, size, true); end.setUint32(16, off, true);
+    return new Blob([...parts, ...cen, new Uint8Array(end.buffer)], { type: 'application/zip' });
+  }
+  $('#bDownload').addEventListener('click', async () => {
+    if (!$('#change').reportValidity()) return;
+    busy(true, 'Working…');
+    try {
+      const { files, np } = await rebuild(siteFile);
+      const a = document.createElement('a'); a.href = URL.createObjectURL(zip(files)); a.download = 'new-password-files.zip'; document.body.append(a); a.click(); a.remove();
+      msg('#mChange', 'Downloaded new-password-files.zip. New password: ' + np.toUpperCase() + '\nUnzip it and upload the 5 files to GitHub (they replace the old ones). The new password works after that.', true);
+    } catch (err) { msg('#mChange', err.message || 'Something went wrong.'); }
+    busy(false);
+  });
+})();
+</script>
+</body>
+</html>

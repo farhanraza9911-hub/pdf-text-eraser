@@ -1,6 +1,6 @@
 # Privacy Policy: PDF Text Eraser & Editor
 
-**Effective date:** October 7, 2026
+**Effective date:** October 10, 2026
 **Developer:** Farhan Bashir (Bashir Sons of Apps)
 **Contact:** farhanraza9911@gmail.com
 **App:** PDF Text Eraser & Editor, Android package `com.farhan.pdfeditor`, and its web version
@@ -9,7 +9,7 @@ This policy explains what information the app uses, why, and the choices you hav
 
 ## 1. Summary
 
-- Your PDFs, pictures and the text in them **stay on your device**. We do not upload, read, store or sell them.
+- Your PDFs, pictures, scanned documents, CVs and the text in them **stay on your device**. We do not upload, read, store or sell them.
 - We (the developer) **do not collect any personal data**. The app has no accounts and no login.
 - The app shows ads from **Google AdMob**. Google may use your device's advertising ID and other information to show and measure ads, as described below.
 - Purchases ("Remove ads") are processed by **Google Play**.
@@ -21,16 +21,28 @@ This policy explains what information the app uses, why, and the choices you hav
 - Your original file is never changed. Edited files are saved where you choose.
 - The app never sends document or picture contents to us or to any server.
 
+### Document scanner
+
+- Photos you scan are cropped, cleaned (black-and-white, colour, contrast, brightness) and turned into PDF, PNG or Excel files **on your device**.
+- Reading text for Excel or "Read text" uses offline text recognition built into the app; nothing is sent online.
+- Scan pages are kept in temporary private storage while you work and are deleted automatically.
+
+### CV maker
+
+- The details you type into the CV form (for example name, phone, email, address, work history) and an optional photo are saved **only in the app's private storage on your device**, so you can edit your CV later.
+- They are never sent to us or to anyone else. You can delete them at any time with "Clear all" in the CV maker, or by uninstalling the app.
+- Your CV is created as a PDF or picture on your device and is only shared when you choose to share it.
+
 ## 3. Camera and photos
 
-- "Take a picture" opens your phone's own camera app. The app does not request the camera permission.
-- Photos you take or choose are processed on your device only.
+- "Take a picture" (picture editor and document scanner) opens your phone's own camera app. The app does not request the camera permission.
+- Photos you take or choose (including a CV photo) are processed on your device only.
 
 ## 4. Information we collect
 
 **None.** We do not run servers that receive your data. We do not use analytics or tracking tools.
 
-The app keeps a few settings **on your device only**: recently opened file names, theme, default save folder, and whether ads were removed. You can clear the recent list in Settings → "Clear recent history". Uninstalling the app deletes all of this.
+The app keeps a few settings **on your device only**: recently opened file names, theme, default save folder, whether ads were removed, and your CV form details. You can clear the recent list in Settings → "Clear recent history". Uninstalling the app deletes all of this.
 
 ## 5. Third-party services
 
@@ -75,7 +87,7 @@ Document processing stays on your device and inside the app's private storage, w
 
 ## 10. Web version
 
-The web version runs entirely in your browser. Files you open are not uploaded; it works offline after it is loaded. It does not show ads and does not use cookies for tracking.
+The web version (PDF editor, image editor, document scanner and CV maker) runs entirely in your browser. Files and pictures you open are not uploaded; text recognition runs inside the browser; it works offline after it is loaded. CV details you type are kept only in your browser's local storage on your device (delete them with "Clear all"). It does not show ads and does not use cookies for tracking.
 
 ## 11. Changes to this policy
 
