@@ -1,8 +1,10 @@
 // Offline cache for PDF Text Eraser & Editor (web version)
-const CACHE = 'pdf-eraser-v5';
+const CACHE = 'pdf-eraser-v6';
 const FILES = ['./', './index.html', './privacy-policy.html', './manifest.webmanifest', './icon-192.png', './icon-512.png',
   './image.html', './scan.html', './cv.html', './tools.css', './lib/pdf-lib.min.js', './ocr/ocr-worker.js'];
-self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); self.skipWaiting(); });
+self.addEventListener('install', e => {
+  // Each file on its own: one missing file must not stop the update.
+  e.waitUntil(caches.open(CACHE).then(c => Promise.all(FILES.map(f => c.add(new Request(f, { cache: 'reload' })).catch(() => {}))))); self.skipWaiting(); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x => x !== CACHE).map(x => caches.delete(x))))); self.clients.claim(); });
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
